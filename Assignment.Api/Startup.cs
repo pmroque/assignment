@@ -1,6 +1,12 @@
+using Assignment.Data;
+using Assignment.Repositories;
+using Assignment.Repositories.Interface;
+using Assignment.Services;
+using Assignment.Services.Interface;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +30,14 @@ namespace Assignment.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
+            services.AddDbContext<AssignmentDBContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+
+
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<ITransactionService, TransactionService>();
+
             services.AddControllers();
         }
 
