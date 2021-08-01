@@ -15,8 +15,8 @@ namespace Assignment.Services.Helpers
                 Amount = decimal.Parse(row.Amount),
                 CurrencyCode = row.Currency,
                 TransactionDate = DateTime.Parse(row.TransactionDate),
-                //StatusId = row.Status
-            };
+                StatusId = (int)(TransactionStatus)Enum.Parse(typeof(TransactionStatus), row.Status)
+        };
            return transactionRepository.Add(transaction).Result;
         }
 
@@ -43,6 +43,18 @@ namespace Assignment.Services.Helpers
             if (String.IsNullOrEmpty(row.Status))
             {
                 errorMessage += "| Status is invalid";
+            }
+            else
+            {
+                try
+                {
+                    TransactionStatus transactionStatus = (TransactionStatus)Enum.Parse(typeof(TransactionStatus), row.Status);
+                }
+                catch (Exception)
+                {
+
+                    errorMessage += "| Status is invalid";
+                }
             }
 
             return errorMessage;

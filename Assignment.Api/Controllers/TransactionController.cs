@@ -30,7 +30,7 @@ namespace Assignment.Api.Controllers
 
         [HttpGet]
         [Route("dateFrom/{dateFrom}/dateTo/{dateTo}")]
-        public IActionResult GetTransaction(DateTime dateFrom, DateTime dateTo)
+        public IActionResult GetTransactionByDate(DateTime dateFrom, DateTime dateTo)
         {
             return Ok(transaoctinService.GetTransactionsByDateRange(dateFrom, dateTo));
         }
@@ -39,7 +39,7 @@ namespace Assignment.Api.Controllers
         [Route("status/{status}")]
         public IActionResult GetTransactionsByStatus(string status)
         {
-            return Ok(); // Ok(transaoctinService.GetTransactionsByStatus(status));
+            return  Ok(transaoctinService.GetTransactionsByStatus(status));
         }
 
         [HttpPost("upload", Name = "upload")]

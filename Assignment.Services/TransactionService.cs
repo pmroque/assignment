@@ -66,17 +66,19 @@ namespace Assignment.Services
 
         public IEnumerable<Transaction> GetTransactionsByCurrency(string currency)
         {
-            throw new NotImplementedException();
+            return transactionRepository.GetByCurrencyCode(currency).Result;
         }
 
         public IEnumerable<Transaction> GetTransactionsByDateRange(DateTime dateFrom, DateTime dateTo)
         {
-            throw new NotImplementedException();
+            return transactionRepository.GetTransactionsByDateRange(dateFrom, dateTo).Result;
         }
 
         public IEnumerable<Transaction> GetTransactionsByStatus(string status)
         {
-            throw new NotImplementedException();
+            TransactionStatus transactionStatus = (TransactionStatus)Enum.Parse(typeof(TransactionStatus), status);
+
+            return transactionRepository.GetByStatus((int)transactionStatus).Result;
         }
     }
 }
