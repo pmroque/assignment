@@ -3,23 +3,82 @@
     ViewData["Title"] = "Home Page";
 }
 
+<script type="text/javascript">
+   
+    function SearchByStatusClick() {
+        $('#searchBy').val("STATUS");
+        $('#searchString').val($('#searchStringStatus').val());
+    }
+
+    function SearchByCurrencyClick(searchBy) {
+       
+        $('#searchBy').val("CURRENCY");
+        $('#searchString').val($('#searchStringCurrency').val());       
+    }
+    function SearchByDateClick() {
+        $('#searchBy').val("DATE");
+        $('#dateFrom').val($('#searchDateFrom').val());
+        $('#dateTo').val($('#searchDateTo').val());
+    }
+
+</script>
+
 <div class="text-center">
     <h1 class="display-4">Technical Assignment By Paul Roque</h1>
-    
+
 </div>
 
 
 <p>
     <a asp-controller="transaction" asp-action="index">Upload file</a>
 </p>
+
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Search By Status: <input type="text" id="searchStringStatus" value="@ViewData["searchStringStatus"]" />
+
+            <input type="submit" value="Search" class="btn btn-default" onclick="return SearchByStatusClick()" />
+
+        </p>
+
+        <p>
+            Search By Currency: <input type="text" id="searchStringCurrency" value="@ViewData["searchStringCurrency"]" />
+
+            <input type="submit" value="Search" class="btn btn-default" onclick="return SearchByCurrencyClick()" />
+
+        </p>
+
+        <p>
+            Search By Date: Date From:<input type="text" id="searchDateFrom" value="@ViewData["searchDateFrom"]" />
+            Date To:<input type="text" id="searchDateTo" value="@ViewData["searchDateTo"]" />
+
+            <input type="submit" value="Search" class="btn btn-default" onclick="return SearchByDateClick()" />
+
+        </p>
+
+        <input type="hidden" id="searchBy" name="searchBy" value="STATUS" />
+        <input type="hidden" id="searchString" name="searchString" value="" />
+        <input type="hidden" id="dateFrom" name="dateFrom" value="" />
+        <input type="hidden" id="dateTo" name="dateTo" value="" />
+
+    </div>
+</form>
+
+
+
+
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-               Id
+                Id
             </th>
             <th>
-               Payment
+                Payment
             </th>
             <th>
                 Status
@@ -30,20 +89,20 @@
     <tbody>
         @if (Model.Transactions != null)
         {
-        @foreach (var item in Model.Transactions)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Payment)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>               
-            </tr>
-        }
+            @foreach (var item in Model.Transactions)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Payment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>

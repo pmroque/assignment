@@ -17,22 +17,33 @@ namespace Assignment.Repositories
 
         public async Task<IEnumerable<Transaction>> GetAll()
         {
-            return await dbSet.ToListAsync();
+            return await dbSet
+                .Include(t => t.Status)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Transaction>> GetByCurrencyCode(string currencyCode)
         {
-            return await dbSet.Where(d => d.CurrencyCode == currencyCode).ToListAsync();
+            return await dbSet
+                .Include(t => t.Status)
+                .Where(d => d.CurrencyCode == currencyCode)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Transaction>> GetByStatus(int statusId)
-        {
-            return await dbSet.Where(d => d.StatusId == statusId).ToListAsync();
+        {           
+            return await dbSet
+                .Include(t => t.Status)
+                .Where(d => d.StatusId == statusId)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Transaction>> GetTransactionsByDateRange(DateTime dateFrom, DateTime dateTo)
         {
-            return await dbSet.Where(d => d.TransactionDate >= dateFrom && d.TransactionDate <= dateTo).ToListAsync();
+            return await dbSet
+                .Include(t => t.Status)
+                .Where(d => d.TransactionDate >= dateFrom && d.TransactionDate <= dateTo)
+                .ToListAsync();
         }
     }
 }

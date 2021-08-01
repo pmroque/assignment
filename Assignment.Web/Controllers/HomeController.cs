@@ -16,6 +16,7 @@ namespace Assignment.Controllers
 {
     public class HomeController : Controller
     {
+        private const string UriString = "http://localhost:58212/";
         private readonly ILogger<HomeController> _logger;
 
         private ITransactionRepository transactionRepo;
@@ -26,22 +27,68 @@ namespace Assignment.Controllers
             transactionRepo = _repository;
         }
 
-        public IActionResult Index()
-        {
+        public IActionResult Index(string searchBy, string searchString, string dateFrom, string dateTo)
+        {          
+           
+           
+           
+
             var model = new HomeViewModel();
+
+            switch (searchBy)
+            {
+                case "STATUS": model.Transactions = SearchByStatus(searchString);
+                    @ViewData["searchStringStatus"] = searchString;
+                    break;
+                case "CURRENCY": model.Transactions = SearchByCurrency(searchString);
+                    @ViewData["searchStringCurrency"] = searchString;
+                    break;
+                case "DATE": model.Transactions = SearchByDate(dateFrom, dateTo);
+                    @ViewData["searchDateFrom"] = dateFrom;
+                    @ViewData["searchDateTo"] = dateTo; 
+                    break;
+                default: model.Transactions = GetAll(); break;
+            }          
+
+            return View(model);
+        }
+
+
+        private List<TransactionViewModel>  GetAll()
+        {
+            var url = "api/transaction/all";
+            return GetTransactionRequest(url);
+        }
+
+        private List<TransactionViewModel> SearchByStatus( string status)
+        {
+            var url = "api/transaction/status/" + status;
+            return GetTransactionRequest(url);
+        }
+
+        private List<TransactionViewModel> SearchByCurrency(string currency)
+        {
+            var url = "api/transaction/currency/" + currency;
+            return GetTransactionRequest(url);
+        }
+
+        private List<TransactionViewModel> SearchByDate(string dateFrom, string dateTo)
+        {
+            var url = $"api/transaction/dateFrom/{dateFrom}/dateTo/{dateTo}";
+            return GetTransactionRequest(url);
+        }
+
+        private static List<TransactionViewModel> GetTransactionRequest(string url)
+        {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:58212/");
+                client.BaseAddress = new Uri(UriString);
                 //HTTP GET
-                var responseTask = client.GetAsync("transaction/all");
-                responseTask.Wait();
+                var result = client.GetAsync(url).Result;
 
-                var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
                 {
-
                     var jsonString = result.Content.ReadAsStringAsync().Result;
-
                     var transactions = JsonSerializer.Deserialize<Transaction[]>(jsonString, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
                     var vmTransactions = new List<TransactionViewModel>();
@@ -51,16 +98,15 @@ namespace Assignment.Controllers
                         {
                             Id = item.TransactionId,
                             Payment = item.Amount + " " + item.CurrencyCode,
-                            Status = item.StatusId.ToString()
+                            Status = item.OutputStatus
                         });
                     }
-                    model.Transactions = vmTransactions;
+                    return vmTransactions;
                 }
+
+                return null;
             }
-
-            return View(model);
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

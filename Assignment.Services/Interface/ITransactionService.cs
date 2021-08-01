@@ -11,12 +11,12 @@ namespace Assignment.Services.Interface
     {
         ResponseResult Upload( IFormFile file);
 
-        IEnumerable<Transaction> GetTransactionsAll();
+        IEnumerable<TransactionModel> GetTransactionsAll();
 
-        IEnumerable<Transaction> GetTransactionsByCurrency(string currency);
+        IEnumerable<TransactionModel> GetTransactionsByCurrency(string currency);
 
-        IEnumerable<Transaction> GetTransactionsByDateRange(DateTime dateFrom, DateTime dateTo);
+        IEnumerable<TransactionModel> GetTransactionsByDateRange(DateTime dateFrom, DateTime dateTo);
 
-        IEnumerable<Transaction> GetTransactionsByStatus(string status);
+        IEnumerable<TransactionModel> GetTransactionsByStatus(string status);
     }
 }

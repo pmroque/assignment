@@ -12,6 +12,8 @@ namespace Assignment.Web.Controllers
 {
     public class TransactionController : Controller
     {
+        private const string UriString = "http://localhost:58212/api/transaction/";
+
         public IActionResult Index(string message)
         {
             ViewBag.Message = message;
@@ -29,7 +31,7 @@ namespace Assignment.Web.Controllers
             {
                 try
                 {
-                    client.BaseAddress = new Uri("http://localhost:58212/transaction/upload");
+                    client.BaseAddress = new Uri(UriString);
 
                     byte[] data;
                     using (var br = new BinaryReader(file.OpenReadStream()))
@@ -37,23 +39,19 @@ namespace Assignment.Web.Controllers
 
                     ByteArrayContent bytes = new ByteArrayContent(data);
 
-
                     MultipartFormDataContent multiContent = new MultipartFormDataContent();
-
                     multiContent.Add(bytes, "file", file.FileName);
 
                     var response = client.PostAsync("upload", multiContent).Result;
+                    var result = response.Content.ReadAsStringAsync().Result;
 
-                   var result = response.Content.ReadAsStringAsync().Result;
-
-
-                    return RedirectToAction("Index", "Transaction", new { message = result});
+                    return RedirectToAction("Index", "Transaction", new { message = result });
                 }
                 catch (Exception)
                 {
                     return StatusCode(500); // 500 is generic server error
                 }
-            }            
+            }
         }
     }
 }

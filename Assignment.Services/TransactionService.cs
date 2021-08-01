@@ -53,37 +53,32 @@ namespace Assignment.Services
             {
                 transactionRepository.Save();
             }
-
-
             return result;
         }
 
 
-        public IEnumerable<Transaction> GetTransactionsById(string Id)
+        public IEnumerable<TransactionModel> GetTransactionsByCurrency(string currency)
         {
-            throw new NotImplementedException();
+            return TransactionHelper.MapTransaction(transactionRepository.GetByCurrencyCode(currency).Result.ToList());
         }
 
-        public IEnumerable<Transaction> GetTransactionsByCurrency(string currency)
+        public IEnumerable<TransactionModel> GetTransactionsByDateRange(DateTime dateFrom, DateTime dateTo)
         {
-            return transactionRepository.GetByCurrencyCode(currency).Result;
+            return TransactionHelper.MapTransaction(transactionRepository.GetTransactionsByDateRange(dateFrom, dateTo).Result.ToList());
         }
 
-        public IEnumerable<Transaction> GetTransactionsByDateRange(DateTime dateFrom, DateTime dateTo)
-        {
-            return transactionRepository.GetTransactionsByDateRange(dateFrom, dateTo).Result;
-        }
-
-        public IEnumerable<Transaction> GetTransactionsByStatus(string status)
+        public IEnumerable<TransactionModel> GetTransactionsByStatus(string status)
         {
             TransactionStatus transactionStatus = (TransactionStatus)Enum.Parse(typeof(TransactionStatus), status);
 
-            return transactionRepository.GetByStatus((int)transactionStatus).Result;
+            return TransactionHelper.MapTransaction(transactionRepository.GetByStatus((int)transactionStatus).Result.ToList());
         }
 
-        public IEnumerable<Transaction> GetTransactionsAll()
+        public IEnumerable<TransactionModel> GetTransactionsAll()
         {
-            return transactionRepository.GetAll().Result;
+            return TransactionHelper.MapTransaction(transactionRepository.GetAll().Result.ToList());
         }
+
+        
     }
 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Assignment.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class TransactionController : ControllerBase
     {
         private protected ITransactionService transaoctinService { get; set; }
@@ -20,6 +20,14 @@ namespace Assignment.Api.Controllers
         {
             transaoctinService = service;
         }
+
+        [HttpGet]
+        [Route("all")]
+        public IActionResult GetTransactionsAll()
+        {
+            return Ok(transaoctinService.GetTransactionsAll());
+        }
+
 
         [HttpGet]
         [Route("currency/{currency}")]
@@ -46,9 +54,14 @@ namespace Assignment.Api.Controllers
         public IActionResult Upload(IFormFile file)
         {
 
+            if (file == null)
+            {
+                return BadRequest("Transaction File is Required");
+            }
+
             if(!IsValidFile(file.FileName))
             {
-                return BadRequest("Unknown Format");
+                return BadRequest($"Uknown format: The File '{file.FileName}' is not a known Format");
             }
 
             var response = transaoctinService.Upload(file);

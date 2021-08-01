@@ -62,7 +62,7 @@ namespace Assignment.Services.Uploader
             {
                 TransactionId = transaction.Id,
                 Amount = transaction.PaymentDetails.Amount,
-                Currency = transaction.PaymentDetails.CurrencyCode,
+                CurrencyCode = transaction.PaymentDetails.CurrencyCode,
                 Status = transaction.Status,
                 TransactionDate = transaction.TransactionDate
 
