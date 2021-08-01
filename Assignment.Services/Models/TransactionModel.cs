@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Assignment.Services.Models
 {
-    public class TransactionRow
+    public class TransactionModel
     {
         public string TransactionId { get; set; }
         public string Amount { get; set; }

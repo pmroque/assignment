@@ -1,4 +1,5 @@
 ﻿using Assignment.Data.Models;
+using Assignment.Services.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace Assignment.Services.Interface
 {
     public interface ITransactionService
     {
-        HttpStatusCode Upload( IFormFile file);
+        ResponseResult Upload( IFormFile file);
 
         IEnumerable<Transaction> GetTransactionsById(string Id);
 

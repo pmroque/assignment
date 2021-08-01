@@ -14,6 +14,8 @@ namespace Assignment.Api.Controllers
     public class TransactionController : ControllerBase
     {
         private protected ITransactionService transaoctinService { get; set; }
+
+        private string[] VALID_EXTENSIONS = { "csv", "xml", "png" };
         public TransactionController(ITransactionService service)
         {
             transaoctinService = service;
@@ -37,23 +39,38 @@ namespace Assignment.Api.Controllers
         [Route("status/{status}")]
         public IActionResult GetTransactionsByStatus(string status)
         {
-            return Ok(transaoctinService.GetTransactionsByStatus(status));
+            return Ok(); // Ok(transaoctinService.GetTransactionsByStatus(status));
         }
 
         [HttpPost("upload", Name = "upload")]
         public IActionResult Upload(IFormFile file)
         {
 
-            var statusCode = transaoctinService.Upload(file);
-            if (statusCode == HttpStatusCode.OK)
+            if(!IsValidFile(file.FileName))
+            {
+                return BadRequest("Unknown Format");
+            }
+
+            var response = transaoctinService.Upload(file);
+
+            if (response.Valid)
             {
                 return Ok();
             }
             else
             {
-                return BadRequest();
+                return BadRequest(response.ErrorMessage);
             }           
         }
+
+
+        private bool IsValidFile(string fileName)
+        {
+            var extension = fileName.Split('.')[fileName.Split('.').Length - 1];
+
+            return VALID_EXTENSIONS.Contains(extension);
+        }
+
 
 
     }

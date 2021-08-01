@@ -7,11 +7,13 @@
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="27.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Assignment.Data\Assignment.Data.csproj" />
     <ProjectReference Include="..\Assignment.Repositories\Assignment.Repositories.csproj" />
+    <ProjectReference Include="..\Assignment.Web\Assignment.Web.csproj" />
   </ItemGroup>
 
 </Project>

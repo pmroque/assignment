@@ -8,7 +8,7 @@
 		</PaymentDetails>
 		<Status>Done</Status>
 	</Transaction>
-	<Transaction id=”Inv00002”>
+	<Transaction id='Inv00002'>
 		<TransactionDate>2019-01-24T16:09:15</TransactionDate>
 		<PaymentDetails>
 			<Amount>10000.00</Amount>
