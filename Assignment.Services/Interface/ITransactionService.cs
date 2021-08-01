@@ -11,7 +11,7 @@ namespace Assignment.Services.Interface
     {
         ResponseResult Upload( IFormFile file);
 
-        IEnumerable<Transaction> GetTransactionsById(string Id);
+        IEnumerable<Transaction> GetTransactionsAll();
 
         IEnumerable<Transaction> GetTransactionsByCurrency(string currency);
 

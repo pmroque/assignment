@@ -80,5 +80,10 @@ namespace Assignment.Services
 
             return transactionRepository.GetByStatus((int)transactionStatus).Result;
         }
+
+        public IEnumerable<Transaction> GetTransactionsAll()
+        {
+            return transactionRepository.GetAll().Result;
+        }
     }
 }

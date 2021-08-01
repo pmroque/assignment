@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Assignment.Repositories.Interface
 {
-    public interface ITransactionRepository: IGenericRepository<Transaction>
+    public interface ITransactionRepository : IGenericRepository<Transaction>
     {
+
+        Task<IEnumerable<Transaction>> GetAll();
+
         Task<IEnumerable<Transaction>> GetByCurrencyCode(string currencyCode);
 
         Task<IEnumerable<Transaction>> GetByStatus(int statusId);

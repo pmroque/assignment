@@ -13,18 +13,20 @@ namespace Assignment.Repositories
     public class TransactionRepository : GenericRepository<Transaction>, ITransactionRepository
     {
 
-        public TransactionRepository(AssignmentDBContext context): base(context)
+        public TransactionRepository(AssignmentDBContext context) : base(context) { }
+
+        public async Task<IEnumerable<Transaction>> GetAll()
         {
-           
+            return await dbSet.ToListAsync();
         }
+
         public async Task<IEnumerable<Transaction>> GetByCurrencyCode(string currencyCode)
         {
-             return await dbSet.Where(d => d.CurrencyCode == currencyCode).ToListAsync();          
+            return await dbSet.Where(d => d.CurrencyCode == currencyCode).ToListAsync();
         }
 
         public async Task<IEnumerable<Transaction>> GetByStatus(int statusId)
         {
-
             return await dbSet.Where(d => d.StatusId == statusId).ToListAsync();
         }
 
